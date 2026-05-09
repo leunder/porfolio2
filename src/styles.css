@@ -4,6 +4,8 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap");
+
 /*
  * Design system definition.
  *
@@ -59,29 +61,32 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --font-pixel: "Press Start 2P", system-ui, sans-serif;
+  --font-mono-pixel: "VT323", ui-monospace, monospace;
 }
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  /* Retro pixel-art dark palette (CRT / arcade) */
+  --background: oklch(0.16 0.03 270);
+  --foreground: oklch(0.96 0.02 110);
+  --card: oklch(0.22 0.04 268);
+  --card-foreground: oklch(0.96 0.02 110);
+  --popover: oklch(0.22 0.04 268);
+  --popover-foreground: oklch(0.96 0.02 110);
+  --primary: oklch(0.78 0.21 145);          /* neon green */
+  --primary-foreground: oklch(0.16 0.03 270);
+  --secondary: oklch(0.72 0.20 25);         /* warm red/orange */
+  --secondary-foreground: oklch(0.16 0.03 270);
+  --muted: oklch(0.28 0.04 268);
+  --muted-foreground: oklch(0.78 0.04 250);
+  --accent: oklch(0.78 0.18 320);           /* magenta */
+  --accent-foreground: oklch(0.16 0.03 270);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.78 0.21 145);
+  --input: oklch(0.28 0.04 268);
+  --ring: oklch(0.78 0.21 145);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +145,51 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-mono-pixel);
+    image-rendering: pixelated;
+    background-image:
+      linear-gradient(var(--color-muted) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-muted) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+  }
+
+  h1, h2, h3, h4, .font-pixel {
+    font-family: var(--font-pixel);
+    letter-spacing: 0.02em;
   }
 }
+
+/* Pixel-art utilities */
+.pixel-border {
+  box-shadow:
+    0 0 0 4px var(--color-background),
+    0 0 0 8px var(--color-primary);
+  image-rendering: pixelated;
+}
+.pixel-card {
+  background-color: var(--color-card);
+  border: 4px solid var(--color-primary);
+  box-shadow: 8px 8px 0 0 var(--color-accent);
+}
+.pixel-btn {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  padding: 0.6rem 1rem;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border: 4px solid var(--color-foreground);
+  box-shadow: 4px 4px 0 0 var(--color-foreground);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pixel-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 0 var(--color-foreground); }
+.pixel-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 0 var(--color-foreground); }
+.pixel-btn-secondary { background: var(--color-secondary); }
+.pixel-btn-accent { background: var(--color-accent); color: var(--color-accent-foreground); }
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+.blink { animation: blink 1s steps(1) infinite; }
